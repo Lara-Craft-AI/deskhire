@@ -12,26 +12,28 @@ type IntakePayload = {
   hireTypeInterest?: string[];
 };
 
-async function sendTelegramNotification(payload: IntakePayload) {
+async function sendTelegramNotification(payload: IntakePayload): Promise<{ ok: boolean; error?: string }> {
   const botToken = process.env.TELEGRAM_BOT_TOKEN;
   const chatId = process.env.TELEGRAM_NOTIFY_CHAT_ID;
   const threadId = process.env.TELEGRAM_NOTIFY_THREAD_ID;
 
-  if (!botToken || !chatId) return;
+  if (!botToken || !chatId) {
+    return { ok: false, error: `Missing env vars: botToken=${!!botToken}, chatId=${!!chatId}` };
+  }
 
   const hireTypes = payload.hireTypeInterest?.join(", ") || "Not specified";
   const message = [
-    "🚀 *New DeskHire Lead*",
+    "🚀 New DeskHire Lead",
     "",
-    `*Name:* ${payload.fullName}`,
-    `*Email:* ${payload.email}`,
-    `*Company:* ${payload.companyName}`,
-    payload.companyWebsite ? `*Website:* ${payload.companyWebsite}` : null,
-    payload.industry ? `*Industry:* ${payload.industry}` : null,
-    payload.roleToAutomate ? `\n*Role to automate:*\n${payload.roleToAutomate}` : null,
-    payload.currentTools ? `*Tools:* ${payload.currentTools}` : null,
-    `*Hire type interest:* ${hireTypes}`,
-    payload.additionalNotes ? `\n*Notes:*\n${payload.additionalNotes}` : null,
+    `Name: ${payload.fullName}`,
+    `Email: ${payload.email}`,
+    `Company: ${payload.companyName}`,
+    payload.companyWebsite ? `Website: ${payload.companyWebsite}` : null,
+    payload.industry ? `Industry: ${payload.industry}` : null,
+    payload.roleToAutomate ? `\nRole to automate:\n${payload.roleToAutomate}` : null,
+    payload.currentTools ? `Tools: ${payload.currentTools}` : null,
+    `Hire type interest: ${hireTypes}`,
+    payload.additionalNotes ? `\nNotes:\n${payload.additionalNotes}` : null,
   ]
     .filter(Boolean)
     .join("\n");
@@ -39,17 +41,22 @@ async function sendTelegramNotification(payload: IntakePayload) {
   const body: Record<string, string> = {
     chat_id: chatId,
     text: message,
-    parse_mode: "Markdown",
   };
   if (threadId) {
     body.message_thread_id = threadId;
   }
 
-  await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+  const res = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(body),
   });
+
+  const result = await res.json();
+  if (!result.ok) {
+    return { ok: false, error: JSON.stringify(result) };
+  }
+  return { ok: true };
 }
 
 export async function POST(request: Request) {
@@ -60,13 +67,10 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
     }
 
-    // Send Telegram notification (fire and forget — don't block the response)
-    sendTelegramNotification(payload).catch((err) =>
-      console.error("Telegram notification failed:", err)
-    );
+    const tgResult = await sendTelegramNotification(payload);
 
-    return NextResponse.json({ ok: true });
-  } catch {
-    return NextResponse.json({ error: "Failed to process intake" }, { status: 500 });
+    return NextResponse.json({ ok: true, telegram: tgResult });
+  } catch (err) {
+    return NextResponse.json({ error: "Failed to process intake", details: String(err) }, { status: 500 });
   }
 }
