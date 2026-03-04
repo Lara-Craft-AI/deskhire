@@ -1,21 +1,31 @@
 # DeskHire — Execution Plan
 
-## Status: COMPLETE
+## Phase 1: Core Build — COMPLETE
+- [x] Landing page with all sections
+- [x] Intake form with all fields
+- [x] API route (console.log → Telegram notification)
+- [x] Deploy to Vercel
 
-## Phase 1: Fix Critical Issues
-- [x] **1.1** Replace filesystem API route with console.log-based submission
-- [x] **1.2** Fix all em dashes throughout copy
-- [x] **1.3** Verify `next build` passes cleanly
+## Phase 2: Visual Polish — COMPLETE
+- [x] Gradient text on hero
+- [x] Mobile hamburger menu
+- [x] Dot grid background
+- [x] Em dashes throughout
+- [x] Staggered reveal animations
+- [x] Card hover effects (included cards)
+- [x] Footer: Privacy/Terms links
 
-## Phase 2: Visual Polish
-- [x] **2.1** Gradient text effect on hero headline
-- [x] **2.2** Mobile hamburger menu
-- [x] **2.3** Card hover effects (lift + shadow)
-- [x] **2.4** Dot-grid/radial gradient background
-- [x] **2.5** Staggered fade-in animations
-- [x] **2.6** Spacing and typography
-- [x] **2.7** Footer: Privacy Policy / Terms links
+## Phase 3: Remaining Polish
+- [ ] **3.1** Add hover effects to Role cards (`hover:-translate-y-1 hover:shadow-lg transition-all duration-300`)
+- [ ] **3.2** Add hover effects to Security cards
+- [ ] **3.3** Add hover effects to Process step cards
+- [ ] **3.4** Add hover effects to Options comparison cards
+- [ ] **3.5** Delete unused `src/components/sections/header.tsx`
+- [ ] **3.6** Verify build passes, push to GitHub
 
-## Phase 3: Deploy & Verify
-- [x] **3.1** Commit all changes to GitHub
-- [x] **3.2** Vercel auto-deploy on push
+## Phase 4: Production Verification
+- [ ] **4.1** Set Telegram env vars on Vercel (TELEGRAM_BOT_TOKEN, TELEGRAM_NOTIFY_CHAT_ID)
+- [ ] **4.2** Test form submission end-to-end in production
+- [ ] **4.3** Visual audit: screenshot desktop + mobile
+- [ ] **4.4** Fix any issues found in visual audit
+- [ ] **4.5** Final push + verify live site is 100%

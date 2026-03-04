@@ -461,7 +461,7 @@ export function SecuritySection() {
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {securityItems.map((item, index) => (
             <Reveal key={item.title} delayMs={index * 80}>
-              <Card>
+              <Card className="h-full transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
                 <CardHeader>
                   <item.icon className="mb-2 h-6 w-6 text-primary" />
                   <CardTitle>{item.title}</CardTitle>
@@ -484,7 +484,7 @@ export function RolesSection() {
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {roleCards.map((role, index) => (
             <Reveal key={role.title} delayMs={index * 80}>
-              <Card className="h-full">
+              <Card className="h-full transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
                 <CardHeader>
                   <CardTitle>{role.title}</CardTitle>
                 </CardHeader>
@@ -508,7 +508,7 @@ export function ProcessSection() {
         <div className="space-y-4">
           {processSteps.map((step, index) => (
             <Reveal key={step.title} delayMs={index * 90}>
-              <Card className="relative overflow-hidden">
+              <Card className="relative overflow-hidden transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md">
                 <CardHeader>
                   <div className="mb-2 inline-flex h-8 w-8 items-center justify-center rounded-full bg-accent text-sm font-semibold text-accent-foreground">
                     {index + 1}
@@ -533,7 +533,7 @@ export function OptionsSection() {
         <div className="grid gap-5 lg:grid-cols-3">
           {optionColumns.map((column, index) => (
             <Reveal key={column.title} delayMs={index * 90}>
-              <Card className={column.featured ? "border-primary bg-primary/5 shadow-[0_20px_40px_-24px_hsl(var(--primary))]" : ""}>
+              <Card className={`transition-all duration-300 hover:-translate-y-1 hover:shadow-lg ${column.featured ? "border-primary bg-primary/5 shadow-[0_20px_40px_-24px_hsl(var(--primary))]" : ""}`}>
                 <CardHeader>
                   <CardTitle>{column.title}</CardTitle>
                 </CardHeader>

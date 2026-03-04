@@ -16,29 +16,34 @@ These people drown in desk work: follow-ups, scheduling, data entry, compliance 
 ## Mono-feature
 **Managed AI employee as a service.** We build, deploy, and continuously improve a custom AI worker for your business. $2,000 setup + $500/mo.
 
-## MVP Scope (Tonight's Build)
+## MVP Scope
 
-### Landing Page (DONE — needs polish)
-- [x] Hero section with value prop
+### Landing Page
+- [x] Hero section with value prop + gradient text
 - [x] Trust bar (insurance, accounting, real estate)
 - [x] Value strip (cost, 24/7, custom)
 - [x] Problem section ("You know AI can do this...")
 - [x] Comparison table (Human vs AI Desk Hire)
 - [x] Monthly improvement section
-- [x] What's included (memory, tools, persona, support)
+- [x] What's included (memory, tools, persona, support) — with hover effects
 - [x] Security section (6 items)
 - [x] Role cards (Admin, Content, Sales, Compliance, Ops, Custom)
 - [x] Process steps (5 steps)
 - [x] Three options comparison (DIY vs Generic vs DeskHire)
 - [x] FAQ accordion
-- [x] Footer
-- [ ] Mobile hamburger menu
-- [ ] Gradient text on hero headline
-- [ ] Staggered reveal animations (smoother)
-- [ ] Em dashes (— not " - ")
-- [ ] Visual polish: subtle patterns, hover effects, card shadows
+- [x] Footer with Privacy/Terms links
+- [x] Mobile hamburger menu
+- [x] Gradient text on hero headline
+- [x] Staggered reveal animations
+- [x] Em dashes throughout
+- [x] Dot grid background pattern on hero
+- [ ] Hover effects on Role cards (lift + shadow like Included cards)
+- [ ] Hover effects on Security cards
+- [ ] Hover effects on Process step cards
+- [ ] Hover effects on Options comparison cards
+- [ ] Remove unused `src/components/sections/header.tsx` (duplicate of Header in landing-sections.tsx)
 
-### Intake Form (DONE — needs backend fix)
+### Intake Form
 - [x] Full Name, Email, Company Name, Website
 - [x] Industry dropdown (Insurance, Accounting, Real Estate, Legal, Other)
 - [x] Role to automate (textarea)
@@ -46,18 +51,23 @@ These people drown in desk work: follow-ups, scheduling, data entry, compliance 
 - [x] Hire type interest (checkboxes)
 - [x] Additional notes
 - [x] Submit button with loading/success/error states
-- [ ] Backend: switch from filesystem to email notification (or Supabase)
 
 ### Intake API
-- [ ] Replace filesystem write with email notification to mathis@zealy.io
-- [ ] Or: store in Supabase if we set up a project
-- [ ] Send Telegram notification to Mathis on new submission
+- [x] Telegram notification on new submission
+- [ ] Set TELEGRAM_BOT_TOKEN and TELEGRAM_NOTIFY_CHAT_ID as Vercel env vars
+- [ ] Test that form submission actually sends Telegram notification in production
 
 ### Deployment
 - [x] Vercel project created and linked to GitHub
 - [x] Auto-deploy on push to main
-- [ ] Custom domain (deskhire.ai or similar — future)
-- [ ] Verify production build works cleanly
+- [x] Build passes cleanly
+- [ ] Verify production form submission works end-to-end
+
+### Visual Polish (Final Pass)
+- [ ] Screenshot desktop + mobile, rate each section
+- [ ] Ensure consistent card styling across all sections
+- [ ] Check font sizes, spacing, and alignment on mobile
+- [ ] Verify all animations are smooth (no jank)
 
 ## Out of Scope (Future)
 - Stripe payment integration
@@ -65,6 +75,7 @@ These people drown in desk work: follow-ups, scheduling, data entry, compliance 
 - Automated agent provisioning
 - Blog / content pages
 - Analytics / tracking
+- Custom domain
 
 ## Tech Stack
 - Next.js 14 (App Router)
