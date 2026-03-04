@@ -1,3 +1,7 @@
+"use client";
+
+import { useState } from "react";
+
 import {
   Briefcase,
   CalendarClock,
@@ -7,10 +11,12 @@ import {
   HardDriveDownload,
   Lock,
   Mail,
+  Menu,
   Network,
   ShieldCheck,
   UserRoundCog,
-  Workflow
+  Workflow,
+  X
 } from "lucide-react";
 
 import { Reveal } from "@/components/reveal";
@@ -20,13 +26,13 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 const comparisonRows = [
-  ["Annual cost", "$50,000 - $150,000", "$8,000/yr + API usage"],
+  ["Annual cost", "$50,000—$150,000", "$8,000/yr + API usage"],
   ["Hours per week", "40 (minus PTO, sick days, meetings)", "168. Every week. Forever."],
   ["Ramp-up", "2-4 weeks of onboarding", "48 hours"],
   ["2 AM coverage", "Not a chance", "Already working"],
   ["Consistency", "Monday energy != Friday energy", "Identical quality, every time"],
   ["Gets sick", "Yes", "No"],
-  ["Needs managing", "Yes", "Minimal  -  we handle most of it"],
+  ["Needs managing", "Yes", "Minimal—we handle most of it"],
   ["Scale to 2x", "Hire another person", "Costs $0 extra"],
   ["You own everything", "They quit, tribal knowledge leaves", "Every file, every config, forever"]
 ];
@@ -35,13 +41,13 @@ const includedCards = [
   {
     title: "Memory that sticks",
     description:
-      "Most AI setups constantly forget things. We've figured out the memory architecture that makes it stick  -  your hire remembers clients, cases, preferences, and how you operate.",
+      "Most AI setups constantly forget things. We've figured out the memory architecture that makes it stick—your hire remembers clients, cases, preferences, and how you operate.",
     icon: HardDriveDownload
   },
   {
     title: "Pre-installed tool stack",
     description:
-      "Email, calendar, CRM integration, document generation  -  ready to go. We add domain-specific tools during your build.",
+      "Email, calendar, CRM integration, document generation—ready to go. We add domain-specific tools during your build.",
     icon: Workflow
   },
   {
@@ -128,7 +134,7 @@ const processSteps = [
   {
     title: "Tell us the role",
     description:
-      "Free consult  -  fill out the intake form. What does the person do today? What tools do they use? What does 'good' look like?"
+      "Free consult—fill out the intake form. What does the person do today? What tools do they use? What does 'good' look like?"
   },
   {
     title: "We scope your hire",
@@ -189,12 +195,12 @@ const faqs = [
   {
     question: "How is this different from just using ChatGPT?",
     answer:
-      "Same difference as having a word processor vs having a secretary. ChatGPT is a tool you use. Your DeskHire is a worker that uses tools  -  connected to your email, your CRM, your calendar, doing actual work autonomously."
+      "Same difference as having a word processor vs having a secretary. ChatGPT is a tool you use. Your DeskHire is a worker that uses tools—connected to your email, your CRM, your calendar, doing actual work autonomously."
   },
   {
     question: "Is the consult really free?",
     answer:
-      "Yes. We review your workflows, ask discovery questions, and send you a concrete scope plan  -  no charge, no commitment."
+      "Yes. We review your workflows, ask discovery questions, and send you a concrete scope plan—no charge, no commitment."
   },
   {
     question: "What do I need to provide?",
@@ -208,7 +214,7 @@ const faqs = [
   {
     question: "What does the $500/mo cover?",
     answer:
-      "Hosting, monitoring, bug fixes, skill updates, and active improvement. We don't just keep the lights on  -  we make your hire better every month."
+      "Hosting, monitoring, bug fixes, skill updates, and active improvement. We don't just keep the lights on—we make your hire better every month."
   },
   {
     question: "Can I cancel?",
@@ -240,9 +246,11 @@ function SectionHeader({
 }
 
 export function Header() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   return (
     <header className="sticky top-0 z-40 border-b border-border/80 bg-background/90 backdrop-blur">
-      <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-3">
+      <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-3 md:py-3">
         <a href="#hero" className="text-lg font-semibold tracking-tight text-foreground">
           DeskHire
         </a>
@@ -260,31 +268,71 @@ export function Header() {
             FAQ
           </a>
         </nav>
-        <Button asChild size="sm">
+        <Button asChild size="sm" className="hidden md:inline-flex">
           <a href="#consult">Free Consult</a>
         </Button>
+        <button
+          type="button"
+          className="inline-flex items-center justify-center rounded-md border border-border p-2 text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground md:hidden"
+          aria-label="Toggle navigation menu"
+          aria-expanded={isMenuOpen}
+          onClick={() => setIsMenuOpen((prev) => !prev)}
+        >
+          {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+        </button>
       </div>
+      {isMenuOpen && (
+        <div className="border-t border-border/80 bg-background px-6 py-4 md:hidden">
+          <nav className="flex flex-col gap-3 text-sm text-muted-foreground">
+            <a href="#comparison" className="transition-colors hover:text-foreground" onClick={() => setIsMenuOpen(false)}>
+              Comparison
+            </a>
+            <a href="#roles" className="transition-colors hover:text-foreground" onClick={() => setIsMenuOpen(false)}>
+              Roles
+            </a>
+            <a href="#process" className="transition-colors hover:text-foreground" onClick={() => setIsMenuOpen(false)}>
+              Process
+            </a>
+            <a href="#faq" className="transition-colors hover:text-foreground" onClick={() => setIsMenuOpen(false)}>
+              FAQ
+            </a>
+            <Button asChild size="sm" className="mt-2 w-fit">
+              <a href="#consult" onClick={() => setIsMenuOpen(false)}>
+                Free Consult
+              </a>
+            </Button>
+          </nav>
+        </div>
+      )}
     </header>
   );
 }
 
 export function HeroSection() {
   return (
-    <section id="hero" className="px-6 pb-20 pt-16 md:pb-24 md:pt-24">
+    <section id="hero" className="relative overflow-hidden px-6 pb-20 pt-16 md:pb-24 md:pt-24">
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 opacity-[0.18]"
+        style={{
+          backgroundImage: "radial-gradient(circle at 1px 1px, rgba(100,116,139,0.25) 1px, transparent 0)",
+          backgroundSize: "24px 24px"
+        }}
+      />
       <Reveal className="mx-auto max-w-5xl text-center">
         <p className="mb-5 inline-flex rounded-full border border-border bg-card px-4 py-1 text-sm text-muted-foreground">
           Your AI Desk Hire
         </p>
-        <h1 className="text-balance text-4xl font-semibold tracking-tight md:text-6xl">
+        <h1 className="bg-gradient-to-r from-gray-900 via-blue-800 to-gray-900 bg-clip-text text-balance text-4xl font-semibold tracking-tight text-transparent md:text-6xl">
           Your next hire doesn&apos;t need a salary.
         </h1>
         <p className="mx-auto mt-6 max-w-4xl text-lg text-muted-foreground md:text-xl">
-          We build you a managed AI employee. It works 24/7, costs 90% less than a human, and gets better every single month 
+          We build you a managed AI employee. It works 24/7, costs 90% less than a human, and gets better every single month
           because we keep training it.
         </p>
         <p className="mx-auto mt-5 max-w-4xl text-base leading-relaxed text-muted-foreground md:text-lg">
           Not a chatbot. Not a template. A custom-built digital worker that knows your business, uses your tools, and does
-          the actual job  -  while our team monitors, tunes, and improves it behind the scenes.
+          the actual job—while our team monitors, tunes, and improves it behind the scenes.
         </p>
         <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
           <Button asChild size="lg">
@@ -307,7 +355,7 @@ export function ProblemSection() {
         <div className="space-y-5 text-base leading-relaxed text-muted-foreground md:text-lg">
           <p>
             Because there&apos;s a brutal gap between &quot;AI can handle follow-ups&quot; and actually having an AI that handles your
-            follow-ups  -  in your voice, connected to your CRM, every single day without you touching it.
+            follow-ups—in your voice, connected to your CRM, every single day without you touching it.
           </p>
           <p>
             Getting there means configuring prompts, wiring up APIs, building memory systems, setting up servers, debugging at
@@ -316,7 +364,7 @@ export function ProblemSection() {
           <p>Most people start, get 60% of the way there, and give up.</p>
           <p>We do all of it. The whole 100%.</p>
           <p>
-            You tell us what the role is. We build the entire system, deploy it, and then  -  here&apos;s the part nobody else does 
+            You tell us what the role is. We build the entire system, deploy it, and then—here&apos;s the part nobody else does
             we keep improving it every month.
           </p>
         </div>
@@ -363,7 +411,7 @@ export function MonthlyImprovementSection() {
             you put in more work.
           </p>
           <p>
-            Your DeskHire has a team behind it. Every month, we actively improve your system. Not just &quot;keep it running&quot; -
+            Your DeskHire has a team behind it. Every month, we actively improve your system. Not just &quot;keep it running&quot;—
             genuinely make it better. New techniques we discover, better prompting strategies, smarter memory architectures,
             workflow optimizations from managing AI employees across dozens of clients.
           </p>
@@ -382,7 +430,7 @@ export function IncludedSection() {
         <div className="grid gap-5 md:grid-cols-2">
           {includedCards.map((item, index) => (
             <Reveal key={item.title} delayMs={index * 90}>
-              <Card className="h-full border-border/80 bg-white">
+              <Card className="h-full border-border/80 bg-white transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg">
                 <CardHeader>
                   <item.icon className="mb-2 h-6 w-6 text-primary" />
                   <CardTitle>{item.title}</CardTitle>
@@ -406,7 +454,7 @@ export function SecuritySection() {
         <SectionHeader title="Built secure from day one" />
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {securityItems.map((item) => (
-            <Card key={item.title}>
+            <Card key={item.title} className="transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg">
               <CardHeader>
                 <item.icon className="mb-2 h-6 w-6 text-primary" />
                 <CardTitle>{item.title}</CardTitle>
@@ -427,7 +475,7 @@ export function RolesSection() {
         <SectionHeader title="Who do you want to hire?" />
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {roleCards.map((role) => (
-            <Card key={role.title} className="h-full">
+            <Card className="h-full transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg" key={role.title}>
               <CardHeader>
                 <CardTitle>{role.title}</CardTitle>
               </CardHeader>
@@ -474,7 +522,11 @@ export function OptionsSection() {
           {optionColumns.map((column) => (
             <Card
               key={column.title}
-              className={column.featured ? "border-primary bg-primary/5 shadow-[0_20px_40px_-24px_hsl(var(--primary))]" : ""}
+              className={
+                column.featured
+                  ? "border-primary bg-primary/5 shadow-[0_20px_40px_-24px_hsl(var(--primary))] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg"
+                  : "transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg"
+              }
             >
               <CardHeader>
                 <CardTitle>{column.title}</CardTitle>
@@ -501,7 +553,7 @@ export function ConsultSection() {
     <section id="consult" className="px-6 py-16 md:py-20">
       <Reveal className="mx-auto max-w-4xl">
         <SectionHeader
-          title="Start here  -  Free Consult"
+          title="Start here—Free Consult"
           subtitle="Tell us about the role and we'll follow up within 24 hours."
         />
         <Card>
@@ -541,6 +593,14 @@ export function Footer() {
           <p>Your AI Desk Hire.</p>
         </div>
         <p>Copyright 2026</p>
+        <div className="flex items-center gap-4">
+          <a href="#" className="transition-colors hover:text-foreground">
+            Privacy Policy
+          </a>
+          <a href="#" className="transition-colors hover:text-foreground">
+            Terms of Service
+          </a>
+        </div>
         <a href="mailto:hello@deskhire.ai" className="inline-flex items-center gap-2 transition-colors hover:text-foreground">
           <Mail className="h-4 w-4" />
           hello@deskhire.ai
@@ -554,7 +614,7 @@ export function TrustBar() {
   return (
     <section className="px-6 pb-4">
       <Reveal className="mx-auto max-w-6xl rounded-xl border border-border/80 bg-white/90 p-4 text-center text-sm text-muted-foreground md:text-base">
-        Built for insurance agents, accountants, and real estate teams that need trustworthy automation  -  not experiments.
+        Built for insurance agents, accountants, and real estate teams that need trustworthy automation—not experiments.
       </Reveal>
     </section>
   );

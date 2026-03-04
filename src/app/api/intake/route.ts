@@ -1,6 +1,3 @@
-import { promises as fs } from "fs";
-import path from "path";
-
 import { NextResponse } from "next/server";
 
 type IntakePayload = {
@@ -15,8 +12,6 @@ type IntakePayload = {
   hireTypeInterest?: string[];
 };
 
-const submissionsPath = path.join(process.cwd(), "data", "intake-submissions.json");
-
 export async function POST(request: Request) {
   try {
     const payload = (await request.json()) as IntakePayload;
@@ -29,23 +24,6 @@ export async function POST(request: Request) {
       ...payload,
       submittedAt: new Date().toISOString()
     };
-
-    await fs.mkdir(path.dirname(submissionsPath), { recursive: true });
-
-    let existing: IntakePayload[] = [];
-
-    try {
-      const raw = await fs.readFile(submissionsPath, "utf8");
-      existing = JSON.parse(raw) as IntakePayload[];
-      if (!Array.isArray(existing)) {
-        existing = [];
-      }
-    } catch {
-      existing = [];
-    }
-
-    existing.push(submission);
-    await fs.writeFile(submissionsPath, JSON.stringify(existing, null, 2), "utf8");
 
     console.log("DeskHire intake submission", submission);
 
