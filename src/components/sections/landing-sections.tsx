@@ -238,9 +238,9 @@ function SectionHeader({
   centered?: boolean;
 }) {
   return (
-    <div className={centered ? "mx-auto mb-10 max-w-3xl text-center" : "mb-10 max-w-3xl"}>
+    <div className={centered ? "mx-auto mb-10 max-w-3xl text-center md:mb-12" : "mb-10 max-w-3xl md:mb-12"}>
       <h2 className="text-balance text-3xl font-semibold tracking-tight text-foreground md:text-4xl">{title}</h2>
-      {subtitle && <p className="mt-3 text-lg text-muted-foreground">{subtitle}</p>}
+      {subtitle && <p className="mt-4 text-lg leading-relaxed text-muted-foreground">{subtitle}</p>}
     </div>
   );
 }
@@ -313,18 +313,24 @@ export function HeroSection() {
     <section id="hero" className="relative overflow-hidden px-6 pb-20 pt-16 md:pb-24 md:pt-24">
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 opacity-[0.18]"
+        className="pointer-events-none absolute inset-0 opacity-[0.16]"
         style={{
           backgroundImage: "radial-gradient(circle at 1px 1px, rgba(100,116,139,0.25) 1px, transparent 0)",
           backgroundSize: "24px 24px"
         }}
       />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(59,130,246,0.14),transparent_58%)]"
+      />
       <Reveal className="mx-auto max-w-5xl text-center">
         <p className="mb-5 inline-flex rounded-full border border-border bg-card px-4 py-1 text-sm text-muted-foreground">
           Your AI Desk Hire
         </p>
-        <h1 className="bg-gradient-to-r from-gray-900 via-blue-800 to-gray-900 bg-clip-text text-balance text-4xl font-semibold tracking-tight text-transparent md:text-6xl">
-          Your next hire doesn&apos;t need a salary.
+        <h1 className="text-balance text-4xl font-semibold tracking-tight md:text-6xl">
+          <span className="bg-gradient-to-r from-sky-500 via-indigo-500 to-cyan-500 bg-clip-text text-transparent [text-shadow:0_8px_28px_rgba(56,189,248,0.2)]">
+            Your next hire doesn&apos;t need a salary
+          </span>
         </h1>
         <p className="mx-auto mt-6 max-w-4xl text-lg text-muted-foreground md:text-xl">
           We build you a managed AI employee. It works 24/7, costs 90% less than a human, and gets better every single month
@@ -430,7 +436,7 @@ export function IncludedSection() {
         <div className="grid gap-5 md:grid-cols-2">
           {includedCards.map((item, index) => (
             <Reveal key={item.title} delayMs={index * 90}>
-              <Card className="h-full border-border/80 bg-white transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg">
+              <Card className="h-full border-border/80 bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
                 <CardHeader>
                   <item.icon className="mb-2 h-6 w-6 text-primary" />
                   <CardTitle>{item.title}</CardTitle>
@@ -453,14 +459,16 @@ export function SecuritySection() {
       <Reveal className="mx-auto max-w-6xl">
         <SectionHeader title="Built secure from day one" />
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {securityItems.map((item) => (
-            <Card key={item.title} className="transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg">
-              <CardHeader>
-                <item.icon className="mb-2 h-6 w-6 text-primary" />
-                <CardTitle>{item.title}</CardTitle>
-                <CardDescription>{item.description}</CardDescription>
-              </CardHeader>
-            </Card>
+          {securityItems.map((item, index) => (
+            <Reveal key={item.title} delayMs={index * 80}>
+              <Card>
+                <CardHeader>
+                  <item.icon className="mb-2 h-6 w-6 text-primary" />
+                  <CardTitle>{item.title}</CardTitle>
+                  <CardDescription>{item.description}</CardDescription>
+                </CardHeader>
+              </Card>
+            </Reveal>
           ))}
         </div>
       </Reveal>
@@ -474,15 +482,17 @@ export function RolesSection() {
       <Reveal className="mx-auto max-w-6xl">
         <SectionHeader title="Who do you want to hire?" />
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {roleCards.map((role) => (
-            <Card className="h-full transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg" key={role.title}>
-              <CardHeader>
-                <CardTitle>{role.title}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <CardDescription className="text-sm leading-relaxed md:text-base">{role.description}</CardDescription>
-              </CardContent>
-            </Card>
+          {roleCards.map((role, index) => (
+            <Reveal key={role.title} delayMs={index * 80}>
+              <Card className="h-full">
+                <CardHeader>
+                  <CardTitle>{role.title}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <CardDescription className="text-sm leading-relaxed md:text-base">{role.description}</CardDescription>
+                </CardContent>
+              </Card>
+            </Reveal>
           ))}
         </div>
       </Reveal>
@@ -497,15 +507,17 @@ export function ProcessSection() {
         <SectionHeader title="From intake to employee in days" />
         <div className="space-y-4">
           {processSteps.map((step, index) => (
-            <Card key={step.title} className="relative overflow-hidden">
-              <CardHeader>
-                <div className="mb-2 inline-flex h-8 w-8 items-center justify-center rounded-full bg-accent text-sm font-semibold text-accent-foreground">
-                  {index + 1}
-                </div>
-                <CardTitle>{step.title}</CardTitle>
-                <CardDescription className="text-sm leading-relaxed md:text-base">{step.description}</CardDescription>
-              </CardHeader>
-            </Card>
+            <Reveal key={step.title} delayMs={index * 90}>
+              <Card className="relative overflow-hidden">
+                <CardHeader>
+                  <div className="mb-2 inline-flex h-8 w-8 items-center justify-center rounded-full bg-accent text-sm font-semibold text-accent-foreground">
+                    {index + 1}
+                  </div>
+                  <CardTitle>{step.title}</CardTitle>
+                  <CardDescription className="text-sm leading-relaxed md:text-base">{step.description}</CardDescription>
+                </CardHeader>
+              </Card>
+            </Reveal>
           ))}
         </div>
       </Reveal>
@@ -519,28 +531,23 @@ export function OptionsSection() {
       <Reveal className="mx-auto max-w-6xl">
         <SectionHeader title="Three ways to run AI. Only one you actually want." />
         <div className="grid gap-5 lg:grid-cols-3">
-          {optionColumns.map((column) => (
-            <Card
-              key={column.title}
-              className={
-                column.featured
-                  ? "border-primary bg-primary/5 shadow-[0_20px_40px_-24px_hsl(var(--primary))] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg"
-                  : "transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg"
-              }
-            >
-              <CardHeader>
-                <CardTitle>{column.title}</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                {column.bullets.map((bullet, index) => (
-                  <div key={`${bullet}-${index}`} className="flex items-start gap-2 text-sm">
-                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
-                    <span className="text-muted-foreground">{bullet}</span>
-                  </div>
-                ))}
-                <p className="pt-2 text-sm font-medium text-foreground">{column.footer}</p>
-              </CardContent>
-            </Card>
+          {optionColumns.map((column, index) => (
+            <Reveal key={column.title} delayMs={index * 90}>
+              <Card className={column.featured ? "border-primary bg-primary/5 shadow-[0_20px_40px_-24px_hsl(var(--primary))]" : ""}>
+                <CardHeader>
+                  <CardTitle>{column.title}</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  {column.bullets.map((bullet, bulletIndex) => (
+                    <div key={`${bullet}-${bulletIndex}`} className="flex items-start gap-2 text-sm">
+                      <Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+                      <span className="text-muted-foreground">{bullet}</span>
+                    </div>
+                  ))}
+                  <p className="pt-2 text-sm font-medium text-foreground">{column.footer}</p>
+                </CardContent>
+              </Card>
+            </Reveal>
           ))}
         </div>
       </Reveal>

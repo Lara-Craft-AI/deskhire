@@ -33,16 +33,19 @@ export function Header() {
             <a href="#consult">Free Consult</a>
           </Button>
           <button
+            type="button"
             onClick={() => setOpen(!open)}
             className="inline-flex h-9 w-9 items-center justify-center rounded-md text-muted-foreground transition-colors hover:text-foreground md:hidden"
             aria-label="Toggle menu"
+            aria-expanded={open}
+            aria-controls="mobile-nav"
           >
             {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
         </div>
       </div>
       {open && (
-        <div className="border-t border-border/50 bg-background px-6 py-4 md:hidden">
+        <div id="mobile-nav" className="border-t border-border/50 bg-background px-6 py-4 md:hidden">
           <nav className="flex flex-col gap-3">
             {navLinks.map((link) => (
               <a
