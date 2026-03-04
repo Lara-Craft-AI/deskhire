@@ -15,6 +15,7 @@ type IntakePayload = {
 async function sendTelegramNotification(payload: IntakePayload) {
   const botToken = process.env.TELEGRAM_BOT_TOKEN;
   const chatId = process.env.TELEGRAM_NOTIFY_CHAT_ID;
+  const threadId = process.env.TELEGRAM_NOTIFY_THREAD_ID;
 
   if (!botToken || !chatId) return;
 
@@ -35,14 +36,19 @@ async function sendTelegramNotification(payload: IntakePayload) {
     .filter(Boolean)
     .join("\n");
 
+  const body: Record<string, string> = {
+    chat_id: chatId,
+    text: message,
+    parse_mode: "Markdown",
+  };
+  if (threadId) {
+    body.message_thread_id = threadId;
+  }
+
   await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      chat_id: chatId,
-      text: message,
-      parse_mode: "Markdown",
-    }),
+    body: JSON.stringify(body),
   });
 }
 
