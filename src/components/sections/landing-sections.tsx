@@ -310,42 +310,31 @@ export function Header() {
 
 export function HeroSection() {
   return (
-    <section id="hero" className="relative overflow-hidden px-6 pb-20 pt-16 md:pb-24 md:pt-24">
+    <section id="hero" className="relative overflow-hidden px-6 pb-20 pt-16 md:pb-24 md:pt-28">
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 opacity-[0.16]"
+        className="pointer-events-none absolute inset-0 opacity-[0.12]"
         style={{
           backgroundImage: "radial-gradient(circle at 1px 1px, rgba(100,116,139,0.25) 1px, transparent 0)",
           backgroundSize: "24px 24px"
         }}
       />
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(59,130,246,0.14),transparent_58%)]"
-      />
-      <Reveal className="mx-auto max-w-5xl text-center">
+      <Reveal className="mx-auto max-w-3xl text-center">
         <p className="mb-5 inline-flex rounded-full border border-border bg-card px-4 py-1 text-sm text-muted-foreground">
-          Your AI Desk Hire
+          Live in 48 hours · No contract
         </p>
-        <h1 className="text-balance text-4xl font-semibold tracking-tight md:text-6xl">
-          <span className="bg-gradient-to-r from-sky-500 via-indigo-500 to-cyan-500 bg-clip-text text-transparent [text-shadow:0_8px_28px_rgba(56,189,248,0.2)]">
-            Your next hire doesn&apos;t need a salary
-          </span>
+        <h1 className="text-balance text-4xl font-semibold tracking-tight text-foreground md:text-6xl">
+          Your next hire doesn&apos;t need a salary
         </h1>
-        <p className="mx-auto mt-6 max-w-4xl text-lg text-muted-foreground md:text-xl">
-          We build you a managed AI employee. It works 24/7, costs 90% less than a human, and gets better every single month
-          because we keep training it.
-        </p>
-        <p className="mx-auto mt-5 max-w-4xl text-base leading-relaxed text-muted-foreground md:text-lg">
-          Not a chatbot. Not a template. A custom-built digital worker that knows your business, uses your tools, and does
-          the actual job—while our team monitors, tunes, and improves it behind the scenes.
+        <p className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground md:text-xl">
+          A custom AI employee that knows your business, uses your tools, and works 24/7 — for $500/mo.
         </p>
         <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
           <Button asChild size="lg">
-            <a href="#consult">Free Consult</a>
+            <a href="#consult">Get a Free Consult</a>
           </Button>
-          <Button asChild size="lg" variant="secondary">
-            <a href="#consult">$2,000 setup  |  $500/mo  |  no contract</a>
+          <Button asChild size="lg" variant="outline">
+            <a href="#comparison">See the Comparison</a>
           </Button>
         </div>
       </Reveal>
