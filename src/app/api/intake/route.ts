@@ -12,6 +12,40 @@ type IntakePayload = {
   hireTypeInterest?: string[];
 };
 
+async function sendTelegramNotification(payload: IntakePayload) {
+  const botToken = process.env.TELEGRAM_BOT_TOKEN;
+  const chatId = process.env.TELEGRAM_NOTIFY_CHAT_ID;
+
+  if (!botToken || !chatId) return;
+
+  const hireTypes = payload.hireTypeInterest?.join(", ") || "Not specified";
+  const message = [
+    "🚀 *New DeskHire Lead*",
+    "",
+    `*Name:* ${payload.fullName}`,
+    `*Email:* ${payload.email}`,
+    `*Company:* ${payload.companyName}`,
+    payload.companyWebsite ? `*Website:* ${payload.companyWebsite}` : null,
+    payload.industry ? `*Industry:* ${payload.industry}` : null,
+    payload.roleToAutomate ? `\n*Role to automate:*\n${payload.roleToAutomate}` : null,
+    payload.currentTools ? `*Tools:* ${payload.currentTools}` : null,
+    `*Hire type interest:* ${hireTypes}`,
+    payload.additionalNotes ? `\n*Notes:*\n${payload.additionalNotes}` : null,
+  ]
+    .filter(Boolean)
+    .join("\n");
+
+  await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      chat_id: chatId,
+      text: message,
+      parse_mode: "Markdown",
+    }),
+  });
+}
+
 export async function POST(request: Request) {
   try {
     const payload = (await request.json()) as IntakePayload;
@@ -20,12 +54,10 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
     }
 
-    const submission = {
-      ...payload,
-      submittedAt: new Date().toISOString()
-    };
-
-    console.log("DeskHire intake submission", submission);
+    // Send Telegram notification (fire and forget — don't block the response)
+    sendTelegramNotification(payload).catch((err) =>
+      console.error("Telegram notification failed:", err)
+    );
 
     return NextResponse.json({ ok: true });
   } catch {
