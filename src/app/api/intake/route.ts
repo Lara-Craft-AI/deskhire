@@ -69,7 +69,12 @@ export async function POST(request: Request) {
 
     const tgResult = await sendTelegramNotification(payload);
 
-    return NextResponse.json({ ok: true, telegram: tgResult });
+    if (!tgResult.ok) {
+      console.error("Telegram notification failed:", tgResult.error);
+      return NextResponse.json({ error: "Failed to deliver intake" }, { status: 500 });
+    }
+
+    return NextResponse.json({ ok: true });
   } catch (err) {
     return NextResponse.json({ error: "Failed to process intake", details: String(err) }, { status: 500 });
   }
